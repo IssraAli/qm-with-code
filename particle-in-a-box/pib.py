@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.pyplot import rcParams
 
 class StateArray:
     def __init__(self, samples: int, dt, ic):
@@ -41,7 +42,7 @@ class StateArray:
     def time_step(self): 
         self.stateArray = np.matmul(self.stateArray, self.time_step_matrix)
 
-    def animate(self, iters):
+    def animate(self, iters, title):
         fig = plt.figure()
         ax = fig.add_subplot(111)
         fig.canvas.draw()
@@ -50,12 +51,13 @@ class StateArray:
         
         state = self.stateArray
         domain = self.domain
-        re, = ax.plot(domain[1:-2], state.real[1:-2], label = 'real', alpha = 0.2)
-        im, = ax.plot(domain[1:-2], state.imag[1:-2], label = 'imag', alpha = 0.2)
-        prob, = ax.plot(domain[1:-2], (state.real**2 + state.imag**2)[1:-2], label = 'probability')
+        re, = ax.plot(domain[1:-2], state.real[1:-2], label = 'Re{$\\psi$}', alpha = 0.2)
+        im, = ax.plot(domain[1:-2], state.imag[1:-2], label = 'Im{$\\psi$}', alpha = 0.2)
+        prob, = ax.plot(domain[1:-2], (state.real**2 + state.imag**2)[1:-2], label = '$|\\psi|^2$')
+        ax.set_title(title)
         ax.legend()
         ax.set_xlim([0, 1])
-        ax.set_ylim([-2, 5])
+        ax.set_ylim([-2, 8])
         
         for i in range (0, iters):
             self.time_step()
@@ -67,8 +69,10 @@ class StateArray:
             for t in ax.texts:
                 t.set_visible(False)
             p_integral = np.trapz((state.real**2 + state.imag**2)[1:-2], x = self.domain[1:-2])
-            ax.text(0.2, 0.2, str(p_integral))
+            ax.text(0.6, 3.5, '$\\int_0^1 dx |\psi|^2$ = ' + str(np.round(p_integral, 4)))
             fig.canvas.draw()
+            if i%2 == 0:
+                plt.savefig(str(i), dpi = 100)
             plt.pause(0.05)           
 
 def identity(arr):
@@ -90,8 +94,12 @@ def visualize_matrix(arr):
     plt.show()
 
 if __name__ == "__main__":
+    rcParams['font.family'] = "Futura PT"
+    rcParams['font.weight'] = "book"
+    rcParams.update({'font.size': 14})
 
-    State = StateArray(201, ic = gauss, dt = 0.0005)
+
+    State = StateArray(201, ic = gauss, dt = 0.0003)
     print(State.stateArray, '\n')
     #visualize_matrix(State.time_step_matrix)
-    State.animate(iters = 10000)
+    State.animate(iters = 10000, title = '1-D Particle in a Box - Gaussian initial condition')
