@@ -3,4 +3,5 @@ Basic quantum mechanics problems in python. Currently in progress, but the event
 
 ## Highlight:
 Nondimensionalized 1-D particle in a box simulation, with a Gaussian initial condition. Solved via Crank-Nicolson method
+
 <img src=https://github.com/IssraAli/qm-with-code/blob/main/pib-gauss.gif>
