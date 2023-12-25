@@ -4,11 +4,11 @@ import os
 
 
 
-with imageio.get_writer('./pib-gauss.gif', mode = 'I', duration = 100) as writer:
+with imageio.get_writer('../../pib-stat.gif', mode = 'I', duration = 100) as writer:
     # photolist = os.listdir('./images/pib')
     # photolist.sort()
-    for number in range(0, 404, 2):
-        image = imageio.imread('./images/pib/' + str(number) + '.png')
+    for number in range(0, 214, 2):
+        image = imageio.imread(str(number) + '.png')
         writer.append_data(image)
 # images = []
 # photolist = os.listdir('./images/pib')

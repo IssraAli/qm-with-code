@@ -79,7 +79,7 @@ def identity(arr):
     return arr
 
 def sine(arr):
-    return np.sqrt(2)*np.sin(2 * np.pi * arr)
+    return np.sqrt(2)*np.sin(5 * np.pi * arr)
 
 def square(arr):
     return np.where((0.25 < arr) & (arr < 0.7), 1, 0)
@@ -99,7 +99,7 @@ if __name__ == "__main__":
     rcParams.update({'font.size': 14})
 
 
-    State = StateArray(201, ic = gauss, dt = 0.0003)
+    State = StateArray(201, ic = sine, dt = 0.0003)
     print(State.stateArray, '\n')
     #visualize_matrix(State.time_step_matrix)
-    State.animate(iters = 10000, title = '1-D Particle in a Box - Gaussian initial condition')
+    State.animate(iters = 10000, title = '1-D Particle in a Box - Stationary State with n = 5')
